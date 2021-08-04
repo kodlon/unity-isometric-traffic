@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2149669147026263927}
   - component: {fileID: 1478830535568346873}
   - component: {fileID: 5163764598177376958}
+  - component: {fileID: 5460083705299891852}
   m_Layer: 0
   m_Name: Smooth Road
   m_TagString: Untagged
@@ -95,3 +96,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5460083705299891852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575988718336909225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76921f78f0bf20d4399e1a1a99b245cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
