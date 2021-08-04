@@ -39,7 +39,7 @@ public class CursorInput : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit) & hit.collider != null)
         {
-            IRoadClicked clicked = hit.collider.GetComponent<IRoadClicked>();
+            IRoad clicked = hit.collider.GetComponent<IRoad>();
             if (clicked != null)
                 clicked.Click();
         }
