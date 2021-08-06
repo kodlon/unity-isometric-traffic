@@ -21,6 +21,7 @@ public class CarMove : MonoBehaviour
     private void RoadCheck()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
+
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit) & hit.collider != null)
         {
@@ -37,15 +38,20 @@ public class CarMove : MonoBehaviour
 
     private void MoveCar()
     {
-        Vector3 forward = transform.TransformDirection(-Vector3.forward);
-
-        transform.Translate((forward * Time.deltaTime) * currentCarSpeed);
+        transform.Translate((Vector3.back * Time.deltaTime) * currentCarSpeed);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        if (currentCarSpeed > 0)
+            Gizmos.color = Color.green;
+        else
+            Gizmos.color = Color.red;
+
         Vector3 direction = transform.TransformDirection(Vector3.down);
         Gizmos.DrawRay(transform.position, direction);
+
+        Vector3 directionbck = transform.TransformDirection(Vector3.back);
+        Gizmos.DrawRay(transform.position, directionbck);
     }
 }
