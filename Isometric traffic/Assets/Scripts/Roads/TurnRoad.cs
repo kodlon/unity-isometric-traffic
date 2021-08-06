@@ -28,16 +28,10 @@ public class TurnRoad : MonoBehaviour, IRoad
     private void CheckRoadOnConnection()
     {
         RayInitializer();
+
         RaycastHit hit;
-        if ((Physics.Raycast(rayRight, out hit) & hit.collider != null)
-            & (Physics.Raycast(rayBack, out hit) & hit.collider != null))
-        {
-            isConnected = true;
-        }
-        else
-        {
-            isConnected = false;
-        }
+        isConnected = Physics.Raycast(rayRight, out hit) & hit.collider != null
+                        & Physics.Raycast(rayBack, out hit) & hit.collider != null;
     }
 
     private void RayInitializer()
@@ -48,11 +42,10 @@ public class TurnRoad : MonoBehaviour, IRoad
 
     private void OnDrawGizmos()
     {
-        RayInitializer();
-        if (isConnected)
-            Gizmos.color = Color.green;
-        else
-            Gizmos.color = Color.red;
+        CheckRoadOnConnection();
+
+        Gizmos.color = isConnected ? Color.green : Color.red;
+
         Gizmos.DrawRay(rayRight.origin, rayRight.direction);
         Gizmos.DrawRay(rayBack.origin, rayBack.direction);
     }
