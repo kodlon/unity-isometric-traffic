@@ -7,7 +7,7 @@ public class TurnRoad : MonoBehaviour, IRoad
     bool isConnected = false;
 
 
-    private void Update()
+    private void Start()
     {
         CheckRoadOnConnection();
     }
@@ -15,20 +15,22 @@ public class TurnRoad : MonoBehaviour, IRoad
     public void Click()
     {
         this.transform.Rotate(0, -90, 0);
+        CheckRoadOnConnection();
     }
 
     public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
     {
-        carTransform.Rotate(0, -90, 0);
+        if (isConnected)
+            carTransform.Rotate(0, -90, 0);
         return startCarSpeed;
     }
 
     private void CheckRoadOnConnection()
     {
-        RaycastHit hitRight;
-        RaycastHit hitBack;
-        if (Physics.Raycast(rayRight, out hitRight) & hitRight.collider != null
-            & Physics.Raycast(rayBack, out hitBack) & hitBack.collider != null)
+        RayInitializer();
+        RaycastHit hit;
+        if ((Physics.Raycast(rayRight, out hit) & hit.collider != null)
+            & (Physics.Raycast(rayBack, out hit) & hit.collider != null))
         {
             isConnected = true;
         }
@@ -38,7 +40,7 @@ public class TurnRoad : MonoBehaviour, IRoad
         }
     }
 
-    private void rayInitializer()
+    private void RayInitializer()
     {
         rayRight = new Ray(transform.position, transform.TransformDirection(Vector3.right));
         rayBack = new Ray(transform.position, transform.TransformDirection(Vector3.back));
@@ -46,7 +48,7 @@ public class TurnRoad : MonoBehaviour, IRoad
 
     private void OnDrawGizmos()
     {
-        rayInitializer();
+        RayInitializer();
         if (isConnected)
             Gizmos.color = Color.green;
         else
