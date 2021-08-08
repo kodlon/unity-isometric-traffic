@@ -1,3 +1,4 @@
+using Roads;
 using UnityEngine;
 
 public class CarMove : MonoBehaviour
@@ -46,15 +47,12 @@ public class CarMove : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (currentCarSpeed > 0)
-            Gizmos.color = Color.green;
-        else
-            Gizmos.color = Color.red;
+        Gizmos.color = currentCarSpeed > 0 ? Color.green : Color.red;
 
-        Vector3 direction = transform.TransformDirection(Vector3.down);
-        Gizmos.DrawRay(transform.position, direction);
+        Vector3 directionDown = transform.TransformDirection(Vector3.down);
+        Gizmos.DrawRay(transform.position, directionDown);
 
-        Vector3 directionbck = transform.TransformDirection(Vector3.back);
-        Gizmos.DrawRay(transform.position, directionbck);
+        Vector3 directionBack = transform.TransformDirection(Vector3.back);
+        Gizmos.DrawRay(transform.position, directionBack);
     }
 }
