@@ -1,3 +1,4 @@
+using Roads;
 using UnityEngine;
 
 public class CursorInput : MonoBehaviour
@@ -9,7 +10,7 @@ public class CursorInput : MonoBehaviour
     private void Awake()
     {
         controls = new CursorControls();
-        controls.Mouse.LeftClick.started += _ => LMBClicked();
+        controls.Mouse.LeftClick.started += _ => LmbClicked();
         //control.Mouse.LeftClick.performed += _ => LMBClicked(); //Called when LMB release
 
         mainCamera = Camera.main;
@@ -28,7 +29,7 @@ public class CursorInput : MonoBehaviour
     /// <summary>
     /// Called when press LMB
     /// </summary>
-    private void LMBClicked()
+    private void LmbClicked()
     {
         DetectObject();
     }
