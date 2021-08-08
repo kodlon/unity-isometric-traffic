@@ -1,52 +1,58 @@
 using UnityEngine;
 
-public class TurnRoad : MonoBehaviour, IRoad
+namespace Roads
 {
-    Ray rayRight;
-    Ray rayBack;
-    bool isConnected = false;
-
-
-    private void Start()
+    public class TurnRoad : MonoBehaviour, IRoad
     {
-        CheckRoadOnConnection();
-    }
+        Ray rayRight;
+        Ray rayBack;
+        bool isConnected = false;
 
-    public void Click()
-    {
-        this.transform.Rotate(0, -90, 0);
-        CheckRoadOnConnection();
-    }
 
-    public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
-    {
-        if (isConnected)
-            carTransform.Rotate(0, -90, 0);
-        return startCarSpeed;
-    }
+        private void Start()
+        {
+            CheckRoadOnConnection();
+        }
 
-    private void CheckRoadOnConnection()
-    {
-        RayInitializer();
+        public void Click()
+        {
+            if (!StartLevel.isLevelStarted)
+            {
+                this.transform.Rotate(0, -90, 0);
+                CheckRoadOnConnection();
+            }
+        }
 
-        RaycastHit hit;
-        isConnected = Physics.Raycast(rayRight, out hit) & hit.collider != null
-                        & Physics.Raycast(rayBack, out hit) & hit.collider != null;
-    }
+        public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
+        {
+            if (isConnected)
+                carTransform.Rotate(0, -90, 0);
+            return startCarSpeed;
+        }
 
-    private void RayInitializer()
-    {
-        rayRight = new Ray(transform.position, transform.TransformDirection(Vector3.right));
-        rayBack = new Ray(transform.position, transform.TransformDirection(Vector3.back));
-    }
+        private void CheckRoadOnConnection()
+        {
+            RayInitializer();
 
-    private void OnDrawGizmos()
-    {
-        CheckRoadOnConnection();
+            RaycastHit hit;
+            isConnected = Physics.Raycast(rayRight, out hit) & hit.collider != null
+                                                             & Physics.Raycast(rayBack, out hit) & hit.collider != null;
+        }
 
-        Gizmos.color = isConnected ? Color.green : Color.red;
+        private void RayInitializer()
+        {
+            rayRight = new Ray(transform.position, transform.TransformDirection(Vector3.right));
+            rayBack = new Ray(transform.position, transform.TransformDirection(Vector3.back));
+        }
 
-        Gizmos.DrawRay(rayRight.origin, rayRight.direction);
-        Gizmos.DrawRay(rayBack.origin, rayBack.direction);
+        private void OnDrawGizmos()
+        {
+            CheckRoadOnConnection();
+
+            Gizmos.color = isConnected ? Color.green : Color.red;
+
+            Gizmos.DrawRay(rayRight.origin, rayRight.direction);
+            Gizmos.DrawRay(rayBack.origin, rayBack.direction);
+        }
     }
 }
