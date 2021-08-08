@@ -14,8 +14,11 @@ public class CarMove : MonoBehaviour
 
     private void Update()
     {
-        MoveCar();
-        RoadCheck();
+        if (StartLevel.isLevelStarted)
+        {
+            MoveCar();
+            RoadCheck();
+        }
     }
 
     private void RoadCheck()
