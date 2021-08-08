@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class SmoothRoad : MonoBehaviour, IRoad
+namespace Roads
 {
-    public void Click()
+    public class SmoothRoad : MonoBehaviour, IRoad
     {
-        return;
-    }
+        public void Click()
+        {
+            return;
+        }
 
-    public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
-    {
-        return startCarSpeed;
+        public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
+        {
+            return startCarSpeed;
+        }
     }
 }

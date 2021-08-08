@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class DamagedRoad : MonoBehaviour, IRoad
+namespace Roads
 {
-    public void Click()
+    public class DamagedRoad : MonoBehaviour, IRoad
     {
-        return;
-    }
+        public void Click()
+        {
+            return;
+        }
 
-    public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
-    {
-        return currentCarSpeed / 2f;
+        public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
+        {
+            return currentCarSpeed / 2f;
+        }
     }
 }
