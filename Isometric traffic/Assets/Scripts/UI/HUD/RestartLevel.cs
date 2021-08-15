@@ -1,17 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RestartLevel : MonoBehaviour
+namespace UI.HUD
 {
-    public void OnFullRestartButtonPressed()
+    public class RestartLevel : MonoBehaviour
     {
-        StartLevel.isLevelStarted = false;
+        public void OnFullRestartButtonPressed()
+        {
+            StartLevel.IsLevelStarted = false;
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }    
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }    
     
-    public void OnRestartButtonPressed()
-    {
-        StartLevel.isLevelStarted = false;
+        public void OnRestartButtonPressed()
+        {
+            StartLevel.IsLevelStarted = false;
+        }
     }
 }

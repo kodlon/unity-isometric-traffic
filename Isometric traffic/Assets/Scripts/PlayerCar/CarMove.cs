@@ -1,58 +1,62 @@
 using Roads;
+using UI.HUD;
 using UnityEngine;
 
-public class CarMove : MonoBehaviour
+namespace PlayerCar
 {
-    [SerializeField] private float startCarSpeed = 3;
-    private float currentCarSpeed;
-    private string roadName;
-
-
-    private void Start()
+    public class CarMove : MonoBehaviour
     {
-        currentCarSpeed = startCarSpeed;
-    }
+        [SerializeField] private float startCarSpeed = 3;
+        private float _currentCarSpeed;
+        private string _roadName;
 
-    private void Update()
-    {
-        if (StartLevel.isLevelStarted)
+
+        private void Start()
         {
-            MoveCar();
-            RoadCheck();
+            _currentCarSpeed = startCarSpeed;
         }
-    }
 
-    private void RoadCheck()
-    {
-        Ray ray = new Ray(transform.position, Vector3.down);
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit) & hit.collider != null)
+        private void Update()
         {
-            IRoad road = hit.collider.GetComponent<IRoad>();
-            if (road != null & (roadName == null || hit.collider.name != roadName))
+            if (StartLevel.IsLevelStarted)
             {
-                currentCarSpeed = road.RoadBehaviour(currentCarSpeed, startCarSpeed, transform);
-
-                roadName = hit.collider.name;
+                MoveCar();
+                RoadCheck();
             }
-
         }
-    }
 
-    private void MoveCar()
-    {
-        transform.Translate((Vector3.back * Time.deltaTime) * currentCarSpeed);
-    }
+        private void RoadCheck()
+        {
+            Ray ray = new Ray(transform.position, Vector3.down);
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = currentCarSpeed > 0 ? Color.green : Color.red;
+            if (Physics.Raycast(ray, out RaycastHit hit) & hit.collider != null)
+            {
+                IRoad road = hit.collider.GetComponent<IRoad>();
+                if (road != null & (_roadName == null || hit.collider.name != _roadName))
+                {
+                    _currentCarSpeed = road.RoadBehaviour(_currentCarSpeed, startCarSpeed, transform);
 
-        Vector3 directionDown = transform.TransformDirection(Vector3.down);
-        Gizmos.DrawRay(transform.position, directionDown);
+                    _roadName = hit.collider.name;
+                }
 
-        Vector3 directionBack = transform.TransformDirection(Vector3.back);
-        Gizmos.DrawRay(transform.position, directionBack);
+            }
+        }
+
+        private void MoveCar()
+        {
+            transform.Translate(Vector3.back * (Time.deltaTime * _currentCarSpeed));
+        }
+
+        private void OnDrawGizmos()
+        {
+            Vector3 position = transform.position;
+        
+            Vector3 directionDown = transform.TransformDirection(Vector3.down);
+            Vector3 directionBack = transform.TransformDirection(Vector3.back);
+        
+            Gizmos.color = _currentCarSpeed > 0 ? Color.green : Color.red;
+            Gizmos.DrawRay(position, directionDown);
+            Gizmos.DrawRay(position, directionBack);
+        }
     }
 }

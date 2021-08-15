@@ -1,12 +1,13 @@
+using UI.HUD;
 using UnityEngine;
 
 namespace Roads
 {
     public class TurnRoad : MonoBehaviour, IRoad
     {
-        Ray rayRight;
-        Ray rayBack;
-        bool isConnected = false;
+        private Ray _rayRight;
+        private Ray _rayBack;
+        private bool _isConnected;
 
 
         private void Start()
@@ -16,7 +17,7 @@ namespace Roads
 
         public void Click()
         {
-            if (!StartLevel.isLevelStarted)
+            if (!StartLevel.IsLevelStarted)
             {
                 this.transform.Rotate(0, -90, 0);
                 CheckRoadOnConnection();
@@ -25,7 +26,7 @@ namespace Roads
 
         public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
         {
-            if (isConnected)
+            if (_isConnected)
                 carTransform.Rotate(0, -90, 0);
             return startCarSpeed;
         }
@@ -34,25 +35,25 @@ namespace Roads
         {
             RayInitializer();
 
-            RaycastHit hit;
-            isConnected = Physics.Raycast(rayRight, out hit) & hit.collider != null
-                                                             & Physics.Raycast(rayBack, out hit) & hit.collider != null;
+            _isConnected = Physics.Raycast(_rayRight, out RaycastHit hit) & hit.collider != null &
+                           Physics.Raycast(_rayBack, out hit) & hit.collider != null;
         }
 
         private void RayInitializer()
         {
-            rayRight = new Ray(transform.position, transform.TransformDirection(Vector3.right));
-            rayBack = new Ray(transform.position, transform.TransformDirection(Vector3.back));
+            Vector3 position = transform.localPosition;
+            _rayRight = new Ray(position, transform.TransformDirection(Vector3.right));
+            _rayBack = new Ray(position, transform.TransformDirection(Vector3.back));
         }
 
         private void OnDrawGizmos()
         {
             CheckRoadOnConnection();
 
-            Gizmos.color = isConnected ? Color.green : Color.red;
+            Gizmos.color = _isConnected ? Color.green : Color.red;
 
-            Gizmos.DrawRay(rayRight.origin, rayRight.direction);
-            Gizmos.DrawRay(rayBack.origin, rayBack.direction);
+            Gizmos.DrawRay(_rayRight.origin, _rayRight.direction);
+            Gizmos.DrawRay(_rayBack.origin, _rayBack.direction);
         }
     }
 }

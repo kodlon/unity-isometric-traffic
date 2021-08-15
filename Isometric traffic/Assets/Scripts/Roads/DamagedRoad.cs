@@ -6,7 +6,6 @@ namespace Roads
     {
         public void Click()
         {
-            return;
         }
 
         public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)

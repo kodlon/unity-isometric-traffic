@@ -12,7 +12,7 @@ namespace InputSystemFolder
         private void Awake()
         {
             _inputSystem = new InputSystem();
-            _inputSystem.Touch.Touched.started += _ => LmbClicked();
+            _inputSystem.Touch.Touched.started += _ => TouchedScreen();
             //control.Mouse.LeftClick.performed += _ => LMBClicked(); //Called when LMB release
 
             _mainCamera = Camera.main;
@@ -28,23 +28,21 @@ namespace InputSystemFolder
             _inputSystem.Disable();
         }
 
-        private void LmbClicked()
+        private void TouchedScreen()
         {
-            Debug.Log("Clicked");
             DetectObject();
         }
 
+//#if UNITY_ANDROID
+        //TODO: For android and pc different Input
+//#endif
         private void DetectObject()
         {
-#if UNITY_ANDROID
-    //TODO: For android and pc different Input
-#endif
             Ray ray = _mainCamera.ScreenPointToRay(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
-            if (Physics.Raycast(ray, out RaycastHit hit) & hit.collider != null)
+            if (Physics.Raycast(ray, out RaycastHit hit) & hit.collider != null) //BUG: first touch don`t got hit an object
             {
                 IRoad clicked = hit.collider.GetComponent<IRoad>();
-                if (clicked != null)
-                    clicked.Click();
+                clicked?.Click();
             }
         }
     }

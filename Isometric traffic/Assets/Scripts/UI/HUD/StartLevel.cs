@@ -1,15 +1,17 @@
 using UnityEngine;
 
-public class StartLevel : MonoBehaviour
+namespace UI.HUD
 {
-    public static bool isLevelStarted = false;
-
-    
-
-    public void OnPlayButtonPressed()
+    public class StartLevel : MonoBehaviour
     {
-        isLevelStarted = true;
+        public static bool IsLevelStarted { get; set; }
+
+
+        public void OnPlayButtonPressed()
+        {
+            IsLevelStarted = true;
+        }
+        //TODO: Make event what call method in road to change collider size
+        //Maybe create new interface
     }
-    //TODO: Make event what call method in road to change collider size
-    //Maybe create new interface
 }
