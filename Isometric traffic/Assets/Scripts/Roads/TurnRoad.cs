@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UI.HUD;
 using UnityEngine;
 
@@ -17,9 +18,11 @@ namespace Roads
 
         public void Click()
         {
-            if (!StartLevel.IsLevelStarted)
+            if (!StartLevel.IsLevelStarted && transform.rotation.eulerAngles.y % 90 == 0)
             {
-                this.transform.Rotate(0, -90, 0);
+                //this.transform.Rotate(0, -90, 0);
+                transform.DORotate(new Vector3(0, this.transform.rotation.eulerAngles.y - 90, 0), 1);
+
                 CheckRoadOnConnection();
             }
         }
