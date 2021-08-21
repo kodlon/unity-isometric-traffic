@@ -20,8 +20,7 @@ namespace Roads
         {
             if (!StartLevel.IsLevelStarted && transform.rotation.eulerAngles.y % 90 == 0)
             {
-                //this.transform.Rotate(0, -90, 0);
-                transform.DORotate(new Vector3(0, this.transform.rotation.eulerAngles.y - 90, 0), 1);
+                transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0), 1);
 
                 CheckRoadOnConnection();
             }
@@ -29,9 +28,11 @@ namespace Roads
 
         public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
         {
-            if (_isConnected)
-                carTransform.Rotate(0, -90, 0);
-            return startCarSpeed;
+            //TODO: normal speed of car rotation, basic on startCarSpeed
+            //TODO: rotation car with road position
+            if (_isConnected) 
+                carTransform.DORotate(new Vector3(0, carTransform.rotation.eulerAngles.y - 90, 0), 1f); 
+            return 1.2f;
         }
 
         private void CheckRoadOnConnection()
