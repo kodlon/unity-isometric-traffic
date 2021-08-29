@@ -1,11 +1,15 @@
+using System;
 using DG.Tweening;
 using UI.HUD;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Roads
 {
     public class TurnRoad : MonoBehaviour, IRoad
     {
+        [SerializeField] private bool isRightTurn;
+        
         private Ray _rayRight;
         private Ray _rayBack;
         private bool _isConnected;
@@ -20,18 +24,30 @@ namespace Roads
         {
             if (!StartLevel.IsLevelStarted && transform.rotation.eulerAngles.y % 90 == 0)
             {
-                transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0), 1);
-
+                //transform.Rotate(0, -90, 0);
+                transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y - 90, 0),
+                    0.2f);
                 CheckRoadOnConnection();
             }
+        }
+
+        private void Update()
+        {
+            CheckRoadOnConnection(); //TODO: make without update
         }
 
         public float RoadBehaviour(float currentCarSpeed, float startCarSpeed, Transform carTransform)
         {
             //TODO: normal speed of car rotation, basic on startCarSpeed
             //TODO: rotation car with road position
-            if (_isConnected) 
-                carTransform.DORotate(new Vector3(0, carTransform.rotation.eulerAngles.y - 90, 0), 1f); 
+            if (_isConnected)
+            {
+                if (isRightTurn)
+                    carTransform.DORotate(new Vector3(0, carTransform.rotation.eulerAngles.y + 90, 0), 1f);
+                else
+                    carTransform.DORotate(new Vector3(0, carTransform.rotation.eulerAngles.y - 90, 0), 1f);
+            }
+            
             return 1.2f;
         }
 
@@ -39,8 +55,8 @@ namespace Roads
         {
             RayInitializer();
 
-            _isConnected = Physics.Raycast(_rayRight, out RaycastHit hit) & hit.collider != null &
-                           Physics.Raycast(_rayBack, out hit) & hit.collider != null;
+            _isConnected = Physics.Raycast(_rayRight, out RaycastHit hit) && hit.collider != null && hit.distance < 1f &&
+                           Physics.Raycast(_rayBack, out hit) && hit.collider != null && hit.distance < 1f;
         }
 
         private void RayInitializer()
