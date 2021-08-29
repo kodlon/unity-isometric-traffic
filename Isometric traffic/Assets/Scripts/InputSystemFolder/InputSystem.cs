@@ -15,12 +15,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
     ""name"": ""InputSystem"",
     ""maps"": [
         {
-            ""name"": ""Mouse"",
-            ""id"": ""3560b3dc-f23f-4ce1-aa56-dca6499a477a"",
-            ""actions"": [],
-            ""bindings"": []
-        },
-        {
             ""name"": ""Touch"",
             ""id"": ""9975e168-03c4-448e-8a54-8dcbbb9a56c0"",
             ""actions"": [
@@ -74,8 +68,30 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""12b1c911-23f1-4988-b2f4-e8eabfe43c18"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touched"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""486c9838-e1e4-4f78-9cc7-61cf56a9ad84"",
                     ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9193bbd-f81a-4833-bf27-d2aa7d234123"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -88,8 +104,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Mouse
-        m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         // Touch
         m_Touch = asset.FindActionMap("Touch", throwIfNotFound: true);
         m_Touch_TouchInput = m_Touch.FindAction("Touch Input", throwIfNotFound: true);
@@ -141,31 +155,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Mouse
-    private readonly InputActionMap m_Mouse;
-    private IMouseActions m_MouseActionsCallbackInterface;
-    public struct MouseActions
-    {
-        private @InputSystem m_Wrapper;
-        public MouseActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputActionMap Get() { return m_Wrapper.m_Mouse; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MouseActions set) { return set.Get(); }
-        public void SetCallbacks(IMouseActions instance)
-        {
-            if (m_Wrapper.m_MouseActionsCallbackInterface != null)
-            {
-            }
-            m_Wrapper.m_MouseActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-            }
-        }
-    }
-    public MouseActions @Mouse => new MouseActions(this);
-
     // Touch
     private readonly InputActionMap m_Touch;
     private ITouchActions m_TouchActionsCallbackInterface;
@@ -214,9 +203,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
         }
     }
     public TouchActions @Touch => new TouchActions(this);
-    public interface IMouseActions
-    {
-    }
     public interface ITouchActions
     {
         void OnTouchInput(InputAction.CallbackContext context);
